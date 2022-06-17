@@ -78,7 +78,7 @@
 		mode: 'glsl',
 		used: false,
 		loaded: false,
-		full: true,
+		full: false,
 		editor: {
 			vertex: null,
 			fragment: null
