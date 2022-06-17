@@ -62,6 +62,8 @@
 	}
 
 	sk = {
+		vertexShader: '',
+		fragmentShader: '',
 		material: null,
 		elements,
 		js: [
@@ -78,8 +80,9 @@
 		mode: 'glsl',
 		used: false,
 		loaded: false,
-		full: false,
+		full: true,
 		editor: {
+			config: {},
 			vertex: null,
 			fragment: null
 		},
@@ -92,6 +95,25 @@
 			const temp = document.createElement( 'div' );
 			const self = this;
 
+			function setupEditor( textarea ) {
+
+				const config = {
+					lineNumbers: true,
+					indentWithTabs: true,
+					mode: self.mode,
+					value: textarea.value,
+					'Ctrl-S': function( instance ) { 
+						self.save();
+					}
+				};
+
+				Object.assign( config, self.editor.config );
+
+				return CodeMirror.fromTextArea( textarea, config );
+
+				
+
+			}
 
 			function ready() {
 
@@ -99,17 +121,8 @@
 
 				if ( full ) {
 
-					self.editor.vertex = CodeMirror.fromTextArea( elements.vertex, {
-						lineNumbers: true,
-						mode: self.mode,
-						value: elements.vertex.value
-					} );
-
-					self.editor.fragment = CodeMirror.fromTextArea( elements.fragment, {
-						lineNumbers: true,
-						mode: self.mode,
-						value: elements.fragment.value
-					} );
+					self.editor.vertex = setupEditor( elements.vertex );
+					self.editor.fragment = setupEditor( elements.fragment );
 
 				}
 				
@@ -256,13 +269,13 @@
 
 			elements.name.innerHTML = 'Material: ' + name + ` (<b>${material.type}</b>)`;
 
-			this.vertexShader = elements.vertex.value = material.vertexShader;
-			this.fragmentShader = elements.fragment.value = material.fragmentShader;
+			elements.vertex.value = material.vertexShader;
+			elements.fragment.value = material.fragmentShader;
 
 			if ( this.full && this.loaded ) {
 
-				this.editor.vertex.setValue( this.vertexShader );
-				this.editor.fragment.setValue( this.fragmentShader );
+				this.editor.vertex.setValue( material.vertexShader );
+				this.editor.fragment.setValue( material.fragmentShader );
 
 			}
 
@@ -270,7 +283,14 @@
 
 
 		},
-		edit: function ( material ) {
+		edit: function ( material, full = this.full ) {
+
+			this.full = full;
+			
+			if ( !this.used ) this.use();
+
+			this.vertexShader = material.vertexShader;
+			this.fragmentShader = material.fragmentShader;
 
 			this.set( material );
 
