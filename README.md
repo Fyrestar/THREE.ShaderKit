@@ -19,3 +19,5 @@ To always inject Codemirror enable it in your code. The Codemirror editor is set
 // Somewhere in code after plugin is included to use Codemirror
 sk.full = true;
 ```
+# Demo
+https://codepen.io/Fyrestar/embed/QWQPjQL
