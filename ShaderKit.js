@@ -43,20 +43,19 @@
 				return false;
 
 			} else if ( e.key === 'Tab' ) {
+
 				e.preventDefault();
+
 				const start = this.selectionStart;
 				const end = this.selectionEnd;
 			
-				// set textarea value to: text before caret + tab + text after caret
-				this.value = this.value.substring(0, start) +
-					"\t" + this.value.substring(end);
+				this.value = this.value.substring(0, start) + "\t" + this.value.substring(end);
+				this.selectionStart = this.selectionEnd = start + 1;
 			
-				// put caret at right position again
-				this.selectionStart =
-					this.selectionEnd = start + 1;
-				}
+			}
 
-				dom.setAttribute( 'state', 'changed' );
+			dom.setAttribute( 'state', 'changed' );
+				
 		} );
 
 	}
