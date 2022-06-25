@@ -4,7 +4,7 @@
 # THREE.ShaderKit
 Minimal shader code editor plugin for quick edit on demand. Only needs to be placed in the code and will be available as global variable, specifically to be used with Devtools.
 
-In Devtools open the overlay this way.
+In Devtools open the overlay this way. You might also implement it in your app or game for a debug mode context menu to open by click selection.
 
 ```javascript
 sk.edit( mesh.material )
